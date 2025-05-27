@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <title>Фитнес Тренер</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: white;
+      background-color: black;
+    }
+
+    ::-webkit-scrollbar {
+      height: 10px;
+      background-color: #111;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #333;
+      border-radius: 5px;
+    }
+
+    .trx-heading {
+      font-family: 'Bangers', cursive;
+      font-size: 50px;
+      color: black;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .info-block,
+    .video-block {
+      color: black;
+      background-color: rgba(255, 213, 12);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      flex: 1 1 400px;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .info-block h2 {
+      margin-top: 0;
+    }
+
+    .signup-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: rgb(30, 30, 30);
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+      text-align: center;
+    }
+
+    .signup-btn:hover {
+      background-color: rgb(50, 50, 50);
+      color: rgba(255, 213, 12);
+    }
+
+    .video-block iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    section {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-me {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .about-me img {
+      width: 300px;
+      border-radius: 20px;
+    }
+
+    .about-me-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+
+    .slider {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    .slider img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .slider button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      font-size: 24px;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 2;
+      border-radius: 50%;
+    }
+
+    .slider .prev {
+      left: 10px;
+    }
+
+    .slider .next {
+      right: 10px;
+    }
+
+    .card-container {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+    }
+
+    .card-wrapper {
+      background-color: rgba(255, 213, 12);
+      padding: 10px 50px 50px 50px;
+      border-radius: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 50px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      min-width: 250px;
+      color: black;
+    }
+
+    .more-btn {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: rgb(30, 30, 30);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      position: relative;
+      color: black;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* --- Отзывы с чёрным фоном и скроллом --- */
+    .reviews-slider {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 15px;
+      background-color: #000;
+      border-radius: 15px;
+      padding: 20px;
+      scrollbar-color: #333 #111;
+      scrollbar-width: thin;
+    }
+
+    /* Для webkit */
+    .reviews-slider::-webkit-scrollbar {
+      height: 12px;
+      background-color: #111;
+      border-radius: 10px;
+    }
+
+    .reviews-slider::-webkit-scrollbar-thumb {
+      background-color: #333;
+      border-radius: 10px;
+    }
+
+    .review {
+      min-width: 250px;
+      background-color: #222;
+      border-radius: 12px;
+      padding: 15px;
+      color: white;
+      box-shadow: 0 0 10px rgba(255 255 255 / 0.1);
+      flex-shrink: 0;
+      text-align: center;
+    }
+
+    .review img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      object-fit: cover;
+      height: 180px;
+    }
+
+    .review p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+    }
+
+    input,
+    textarea {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button[type="submit"] {
+      background: #007bff;
+    }
+
+    .contacts {
+      background: #1a1a1a;
+      text-align: center;
+      padding: 40px;
+      color: #fff;
+      border-top: 1px solid #333;
+    }
+
+    .contacts p,
+    .contacts a {
+      color: #ffd50c;
+      text-decoration: none;
+      font-size: 18px;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    /* Иконки соцсетей */
+    .social-icons {
+      margin-top: 15px;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      color: #ffd50c;
+      font-size: 28px;
+      transition: color 0.3s ease;
+      display: inline-block;
+    }
+
+    .social-icons a:hover {
+      color: #fff200;
+    }
+
+    /* Добавим иконки через SVG */
+    .icon {
+      vertical-align: middle;
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+    }
+
+    .faq h3 {
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    .faq p {
+      display: none;
+      color: #ccc;
+      margin-top: 0;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="info-block">
+      <h2 class="trx-heading">TRX Тренировки</h2>
+      <p>
+        TRX — это уникальная система тренировок с использованием собственного веса тела. Развивает силу, выносливость и
+        гибкость.
+      </p>
+      <a class="signup-btn" href="https://t.me/lyatskaya" target="_blank">Записаться</a>
+    </div>
+
+    <div class="video-block">
+      <iframe src="https://player.vimeo.com/video/460276328?h=84a3fdb4cf" allow="fullscreen; picture-in-picture">
+      </iframe>
+    </div>
+  </div>
+
+  <section>
+    <div class="about-me">
+      <div class="slider">
+        <button class="prev">&#10094;</button>
+        <img class="slider-image" src="../fit/trainer1.jpg" alt="Тренер" />
+        <button class="next">&#10095;</button>
+      </div>
+
+      <div class="about-me-text">
+        <h2>Обо мне</h2>
+        <p>Я сертифицированный фитнес-тренер. Специализируюсь на персональных оффлайн и
+          онлайн тренировках, TRX, жиросжигающих и функциональных программах, сопровождаю клиентов в зале и онлайн с
+          полным комплексом: тренировки + питание.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <!-- <div class="card-wrapper">
+      <h2>Мои программы</h2>
+      <div class="card-container">
+        <div class="card">
+          <h3>Персональные тренировки TRX</h3>
+          <button class="more-btn" data-id="1">Подробнее</button>
+        </div>
+        <div class="card">
+          <h3>Жиросжигание и похудение</h3>
+          <button class="more-btn" data-id="2">Подробнее</button>
+        </div>
+        <div class="card">
+          <h3>Сопровождение в фитнес-зале</h3>
+          <button class="more-btn" data-id="3">Подробнее</button>
+        </div>
+      </div>
+    </div> -->
+
+    <section>
+      <div class="card-wrapper">
+        <h2>Мои программы</h2>
+        <div class="card-container">
+
+          <div class="card">
+            <h3>TRX — Тело в тонусе</h3>
+            <p>Персональные тренировки с петлями TRX. Безопасное и эффективное развитие силы и гибкости.</p>
+            <p><strong>1 пробное занятие — бесплатно!</strong></p>
+            <button class="more-btn" data-id="2">Подробнее</button>
+          </div>
+
+          <div class="card">
+            <h3>Фэт-бёрнинг</h3>
+            <p>Интенсивная программа для снижения веса и проработки проблемных зон. Гарантированный результат за 4
+              недели.</p>
+            <p><strong>от 7900₽/мес</strong></p>
+            <button class="more-btn" data-id="2">Подробнее</button>
+          </div>
+
+          <div class="card">
+            <h3>Сопровождение в зале</h3>
+            <p>Индивидуальный подход, контроль техники и программа под ваши цели. Подходит для любого уровня.</p>
+            <p><strong>1-я неделя — в подарок!</strong></p>
+            <button class="more-btn" data-id="2">Подробнее</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-text"></div>
+      <div class="price"></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Сертификаты и образование</h2>
+    <div class="certificates">
+      <img src="https://via.placeholder.com/200x280.png?text=Сертификат+1" alt="Сертификат 1" />
+      <img src="https://via.placeholder.com/200x280.png?text=Сертификат+2" alt="Сертификат 2" />
+      <img src="https://via.placeholder.com/200x280.png?text=Сертификат+3" alt="Сертификат 3" />
+    </div>
+  </section>
+
+  <section>
+    <h2>Направления тренировок</h2>
+    <ul>
+      <li>Функциональные тренировки с TRX петлями</li>
+      <li>Кардио и интервальные табата-сессии</li>
+      <li>Силовой пилатес</li>
+      <li>Тренировки в тренажерном зале под сопровождением</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Отзывы и результаты</h2>
+    <div class="reviews-slider">
+      <div class="review">
+        <img
+          src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          alt="Отзыв 1" />
+        <p>Минус 10 кг за 3 месяца! Спасибо!</p>
+      </div>
+      <div class="review">
+        <img
+          src="https://images.unsplash.com/photo-1603398938378-cfe47e225361?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          alt="Отзыв 2" />
+        <p>Уверенность и здоровье. Рекомендую!</p>
+      </div>
+      <div class="review">
+        <img
+          src="https://images.unsplash.com/photo-1594737625785-c0f3e7c4e7c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          alt="Отзыв 3" />
+        <p>Улучшение самочувствия и фигуры за короткий срок!</p>
+      </div>
+      <div class="review">
+        <img
+          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          alt="Отзыв 4" />
+        <p>Очень доволен тренировками, стало легче и энергичнее.</p>
+      </div>
+      <div class="review">
+        <img
+          src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          alt="Отзыв 5" />
+        <p>Профессиональный подход и отличные результаты!</p>
+      </div>
+      <div class="review">
+        <img
+          src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+          alt="Отзыв 6" />
+        <p>Занимаюсь с тренером уже полгода, рекомендую всем.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h2>Часто задаваемые вопросы</h2>
+    <h3>Сколько длится программа?</h3>
+    <p>Обычно 30 дней, но может быть адаптирована под ваши цели.</p>
+    <h3>Подходит ли программа новичкам?</h3>
+    <p>Да, я адаптирую план под любой уровень подготовки.</p>
+    <h3>Можно ли совмещать с офисной работой?</h3>
+    <p>Конечно! План составляется с учётом вашего расписания.</p>
+  </section>
+
+  <section class="contacts">
+    <h2>Контакты</h2>
+
+    <div class="social-icons">
+
+      <a href="https://wa.me/972549961795" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M20.52 3.48A11.8 11.8 0 0012 0C5.372 0 .002 5.37.002 12a11.94 11.94 0 002.31 6.35L0 24l5.86-2.27a11.9 11.9 0 006.14 1.62c6.63 0 12-5.37 12-12 0-3.2-1.25-6.2-3.48-8.57zM12 21.8a9.76 9.76 0 01-5.05-1.41l-.36-.22-3.48 1.35 1.32-3.38-.23-.37a9.84 9.84 0 011.5-11.32 9.67 9.67 0 0113.7 0 9.7 9.7 0 01-6.3 16.95zm5.41-7.13c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.63.08-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.6.14-.13.3-.34.46-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.92-2.18-.24-.57-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01s-.52.07-.79.37c-.27.3-1.05 1.03-1.05 2.5 0 1.46 1.08 2.87 1.23 3.07.15.2 2.12 3.22 5.14 4.5.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.18-1.42-.07-.12-.27-.2-.57-.35z" />
+        </svg>
+      </a>
+
+      <a href="https://t.me/lyatskaya" target="_blank" rel="noopener noreferrer" title="Telegram">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M9.049 16.83l-.407 4.805c.582 0 .835-.248 1.145-.547l2.752-2.612 5.711 4.174c1.046.58 1.791.277 2.054-.962L23 4.574c.333-1.496-.54-2.15-1.458-1.778L1.78 10.5c-1.422.555-1.408 1.346-.244 1.7l5.722 1.78 13.288-8.349c.623-.4 1.19-.182.726.218L9.05 16.83z" />
+        </svg>
+      </a>
+
+      <a href="https://www.instagram.com/lili_superfit/" target="_blank" rel="noopener noreferrer" title="Instagram">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 2A3.75 3.75 0 004 7.75v8.5A3.75 3.75 0 007.75 20h8.5A3.75 3.75 0 0020 16.25v-8.5A3.75 3.75 0 0016.25 4h-8.5zm8.5 1.75a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <script>
+
+
+    const modal = document.getElementById("modal");
+    const modalText = modal.querySelector(".modal-text");
+    const modalPrice = modal.querySelector(".price");
+    const closeBtn = modal.querySelector(".close");
+
+    const serviceInfo = {
+      1: {
+        text:
+          "Персональные тренировки с использованием петель TRX — развивают силу, выносливость, гибкость.",
+        price: "Цена: 2000 руб/месяц",
+      },
+      2: {
+        text: "Программа для эффективного жиросжигания и снижения веса.",
+        price: "Цена: 1800 руб/месяц",
+      },
+      3: {
+        text: "Сопровождение и поддержка в зале для достижения лучших результатов.",
+        price: "Цена: 2500 руб/месяц",
+      },
+    };
+
+    document.querySelectorAll(".more-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-id");
+        modalText.textContent = serviceInfo[id].text;
+        modalPrice.textContent = serviceInfo[id].price;
+        modal.style.display = "flex";
+      });
+    });
+
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    // FAQ toggle
+    document.querySelectorAll(".faq h3").forEach((el) => {
+      el.addEventListener("click", () => {
+        const p = el.nextElementSibling;
+        if (p.style.display === "block") {
+          p.style.display = "none";
+        } else {
+          p.style.display = "block";
+        }
+      });
+    });
+
+
+    const sliderImages = [
+      "../fit/trainer1.jpg",
+      "../fit/trainer2.jpg",
+      "../fit/trainer3.jpg"
+    ];
+
+    let currentIndex = 0;
+    const sliderImage = document.querySelector('.slider-image');
+    const prevBtn = document.querySelector('.slider .prev');
+    const nextBtn = document.querySelector('.slider .next');
+
+    function showImage(index) {
+      sliderImage.src = sliderImages[index];
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + sliderImages.length) % sliderImages.length;
+      showImage(currentIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % sliderImages.length;
+      showImage(currentIndex);
+    });
+  </script>
+</body>
+
+</html>
